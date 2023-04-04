@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
     mapGranja = [
 #   Y     0    1    2    3    4    5    6    7    8    9   10   11  12    13   14   15   16   17   18   19    |  X
-        ["=", '=', '=', '=', '=', 'O', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ], #0
+        ["=", '=', '=', '=', '=', '0', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ], #0
         ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ], #1
         ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ], #2
         ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ], #3
@@ -29,14 +29,30 @@ if __name__ == '__main__':
         ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ], #18
         ["=", '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ]  #19
     ]
-    ovj = Ent.Oveja(1, 1, mapGranja)
+    ovj = Ent.Oveja(1, 5, mapGranja)
+
+    shep1 = Ent.Pastor(18, 14, mapGranja)
+    shep2 = Ent.Pastor(14, 15, mapGranja)
+    shep3 = Ent.Pastor(12, 18, mapGranja)
+
+    bush = Ent.Arbusto()
+    bush.spawn(mapGranja)
 
     while FINAL:
         print("\n")
-        Ent.existinmap(ovj.figure, ovj.axisX, ovj.axisY, mapGranja)
+
+        ovj.existinmap(mapGranja)
+        bush.existinmap(mapGranja)
+        shep1.existinmap(mapGranja)
+        shep2.existinmap(mapGranja)
+        shep3.existinmap(mapGranja)
+        ovj.existinmap(ovj.knwlg)
         Ent.printmap(mapGranja)
+        Ent.printmap(ovj.knwlg)
+        ovj.move()
         Ent.renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja)
-        Time.sleep(2)
+        ovj.existinmap(mapGranja)
+        Time.sleep(1)
 
 
 
