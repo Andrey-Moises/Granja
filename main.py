@@ -29,7 +29,7 @@ if __name__ == '__main__':
         ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ], #18
         ["=", '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ]  #19
     ]
-    ovj = Ent.Oveja(1, 5, mapGranja)
+    ovj = Ent.Oveja(1, 4, mapGranja)
 
     shep1 = Ent.Pastor(18, 14, mapGranja)
     shep2 = Ent.Pastor(14, 15, mapGranja)
@@ -41,18 +41,31 @@ if __name__ == '__main__':
     while FINAL:
         print("\n")
 
-        ovj.existinmap(mapGranja)
-        bush.existinmap(mapGranja)
-        shep1.existinmap(mapGranja)
-        shep2.existinmap(mapGranja)
-        shep3.existinmap(mapGranja)
-        ovj.existinmap(ovj.knwlg)
-        Ent.printmap(mapGranja)
-        Ent.printmap(ovj.knwlg)
+        ovj.existinmap(mapGranja)   # Posicionarse en el mapa Global - Oveja
+        bush.existinmap(mapGranja)  # Posicionarse en el Mapa Global - Arbusto
+        # shep1.existinmap(mapGranja) # Posicionarse en el Mapa Global - Granjero 1
+        # shep2.existinmap(mapGranja) # Posicionarse en el Mapa Global - Granjero 2
+        # shep3.existinmap(mapGranja) # Posicionarse en el Mapa Global - Granjero3
+        ovj.existinmap(ovj.knwlg)   # Posicionarse en el Mapa del agente - Oveja
+
+        Ent.printmap(mapGranja) # Imprimir Mapa Global
+        Ent.printmap(ovj.knwlg) # Imprimir Mapa del agente - Oveja
+
         ovj.move()
-        Ent.renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja)
+        # shep1.move() # ?
+        # shep2.move() # ?
+        # shep3.move() # ?
+
+        Ent.renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja) # Limpiar posicion de la oveja
+        # Ent.renewposition(shep1.pastPostX, shep1.pastPostY, mapGranja)
+        # Ent.renewposition(shep2.pastPostX, shep2.pastPostY, mapGranja)
+        # Ent.renewposition(shep3.pastPostX, shep3.pastPostY, mapGranja)
+
         ovj.existinmap(mapGranja)
-        Time.sleep(1)
+        # shep1.existinmap(mapGranja)
+        # shep2.existinmap(mapGranja)
+        # shep3.existinmap(mapGranja)
+
 
 
 
