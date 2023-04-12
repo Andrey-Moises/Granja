@@ -51,7 +51,12 @@ if __name__ == '__main__':
         Ent.printmap(mapGranja) # Imprimir Mapa Global
         Ent.printmap(ovj.knwlg) # Imprimir Mapa del agente - Oveja
 
-        ovj.move()
+        if ovj.bushFound:
+            mapGranja[bush.axisX][bush.axisY] = ' '
+            print("SE ENCONTRO LA MIERDA")
+        else:
+            ovj.move()
+
         # shep1.move() # ?
         # shep2.move() # ?
         # shep3.move() # ?
@@ -65,6 +70,7 @@ if __name__ == '__main__':
         # shep1.existinmap(mapGranja)
         # shep2.existinmap(mapGranja)
         # shep3.existinmap(mapGranja)
+        Time.sleep(2)
 
 
 

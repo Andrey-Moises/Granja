@@ -15,8 +15,8 @@ class Arbusto:
         axisx = Rm.randrange(1, 19)
         axisy = Rm.randrange(1, 19)
         if map[axisx][axisy] == ' ':
-            self.axisX = axisx
-            self.axisY = axisy
+            self.axisX = 2
+            self.axisY = 4
         else:
             self.spawn(self, map)
 
@@ -28,8 +28,11 @@ class Oveja:
         self.axisX = x
         self.axisY = y
         self.canMove = True
+
         self.eatTime = 0
+
         self.figure = 'O'
+
         self.map = map
         self.knwlg = [
             #   Y     0    1    2    3    4    5    6    7    8    9   10   11  12    13   14   15   16   17   18   19    |  X
@@ -63,13 +66,16 @@ class Oveja:
             # 18
             ["=", '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ]  # 19
         ]
+
         self.bushFound = False
+        self.bushAxisX = None
+        self.bushAxisY = None
 
         self.knwlg[self.axisX][self.axisY] = self.figure
 
     def move(self):
 
-        def traped():
+        def traped(): # Checar que se pueda mover
             if          self.knwlg[self.axisX - 1][self.axisY] == 'X' or self.knwlg[self.axisX - 1][self.axisY] == '='\
                     and self.knwlg[self.axisX + 1][self.axisY] == 'X' or self.knwlg[self.axisX + 1][self.axisY] == '='\
                     and self.knwlg[self.axisX][self.axisY - 1] == 'X' or self.knwlg[self.axisX][self.axisY - 1] == '='\
@@ -80,10 +86,28 @@ class Oveja:
 
             magicnumber = Rm.randrange(1, 5)
 
-            if         self.knwlg[self.axisX - 1][self.axisY] == 'B' \
-                    or self.knwlg[self.axisX + 1][self.axisY] == 'B' \
-                    or self.knwlg[self.axisX][self.axisY - 1] == 'B' \
-                    or self.knwlg[self.axisX][self.axisY + 1] == 'B':
+            if  self.knwlg[self.axisX - 1][self.axisY] == 'B':
+                self.bushAxisX = self.axisX - 1
+                self.bushAxisY = self.axisY
+                self.bushFound = True
+                self.eat()
+
+            elif self.knwlg[self.axisX + 1][self.axisY] == 'B':
+                self.bushAxisX = self.axisX + 1
+                self.bushAxisY = self.axisY
+                self.bushFound = True
+                self.eat()
+
+            elif self.knwlg[self.axisX][self.axisY - 1] == 'B':
+                self.bushAxisX = self.axisX
+                self.bushAxisY = self.axisY - 1
+                self.bushFound = True
+                self.eat()
+
+            elif self.knwlg[self.axisX][self.axisY + 1] == 'B':
+                self.bushAxisX = self.axisX
+                self.bushAxisY = self.axisY + 1
+                self.bushFound = True
                 self.eat()
 
             else:
@@ -93,9 +117,6 @@ class Oveja:
                 if magicnumber == 1:
                     if self.knwlg[self.axisX - 1][self.axisY] == ' ':
                         self.axisX -= 1
-                    elif self.knwlg[self.axisX - 1][self.axisY] == 'B':
-                        self.bushFound = True
-                        self.eat()
                     elif traped():
                         self.knwlg = [
                             #   Y     0    1    2    3    4    5    6    7    8    9   10   11  12    13   14   15   16   17   18   19    |  X
@@ -166,15 +187,11 @@ class Oveja:
                             self.axisY] != 'B':
                             self.knwlg[self.axisX][self.axisY + 1] = self.map[self.axisX][self.axisY + 1]  # Oeste
 
-
                     else:
                         selectdirection()
                 if magicnumber == 2:
                     if self.knwlg[self.axisX + 1][self.axisY] == ' ':
                         self.axisX += 1
-                    elif self.knwlg[self.axisX + 1][self.axisY] == 'B':
-                        self.bushFound = True
-                        self.eat()
                     elif traped():
                         self.knwlg = [
                             #   Y     0    1    2    3    4    5    6    7    8    9   10   11  12    13   14   15   16   17   18   19    |  X
@@ -250,9 +267,6 @@ class Oveja:
                 if magicnumber == 3:
                     if self.knwlg[self.axisX][self.axisY - 1] == ' ':
                         self.axisY -= 1
-                    elif self.knwlg[self.axisX][self.axisY - 1] == 'B':
-                        self.bushFound = True
-                        self.eat()
                     elif traped():
                         self.knwlg = [
                             #   Y     0    1    2    3    4    5    6    7    8    9   10   11  12    13   14   15   16   17   18   19    |  X
@@ -328,9 +342,6 @@ class Oveja:
                 if magicnumber == 4:
                     if self.knwlg[self.axisX][self.axisY + 1] == ' ':
                         self.axisY += 1
-                    elif self.knwlg[self.axisX][self.axisY + 1] == 'B':
-                        self.bushFound = True
-                        self.eat()
                     elif traped():
                         self.knwlg = [
                             #   Y     0    1    2    3    4    5    6    7    8    9   10   11  12    13   14   15   16   17   18   19    |  X
@@ -426,16 +437,18 @@ class Oveja:
             selectdirection()
 
         else:
-            print("men im eating stfu")
             self.existinmap(self.knwlg)
+            selectdirection()
 
     def existinmap(self, map):
         map[self.axisX][self.axisY] = self.figure
 
     def eat(self):
+        print(self.eatTime)
         self.canMove = False
         self.eatTime += 1
         if self.eatTime > 6:
+            self.knwlg[self.bushAxisX][self.axisY] = ' '
             self.canMove = True
 
 
