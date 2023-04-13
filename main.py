@@ -29,7 +29,7 @@ if __name__ == '__main__':
         ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ], #18
         ["=", '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ]  #19
     ]
-    ovj = Ent.Oveja(1, 4, mapGranja)
+    ovj = Ent.Oveja(8, 2, mapGranja)
 
     shep1 = Ent.Pastor(18, 14, mapGranja)
     shep2 = Ent.Pastor(14, 15, mapGranja)
@@ -43,34 +43,36 @@ if __name__ == '__main__':
 
         ovj.existinmap(mapGranja)   # Posicionarse en el mapa Global - Oveja
         bush.existinmap(mapGranja)  # Posicionarse en el Mapa Global - Arbusto
-        # shep1.existinmap(mapGranja) # Posicionarse en el Mapa Global - Granjero 1
-        # shep2.existinmap(mapGranja) # Posicionarse en el Mapa Global - Granjero 2
-        # shep3.existinmap(mapGranja) # Posicionarse en el Mapa Global - Granjero3
+        shep1.existinmap(mapGranja)
+
+        ovj.revealmap()
+
         ovj.existinmap(ovj.knwlg)   # Posicionarse en el Mapa del agente - Oveja
 
         Ent.printmap(mapGranja) # Imprimir Mapa Global
         Ent.printmap(ovj.knwlg) # Imprimir Mapa del agente - Oveja
 
-        if ovj.bushFound:
-            mapGranja[bush.axisX][bush.axisY] = ' '
-            print("SE ENCONTRO LA MIERDA")
-        else:
-            ovj.move()
+        print(ovj.satiate)
 
-        # shep1.move() # ?
-        # shep2.move() # ?
-        # shep3.move() # ?
+        if ovj.canMove:
+            if ovj.satiate:
+                print("Tengo que salir")
+                ovj.movescape()
+            else:
+                ovj.move()
+                print("Moviendome")
+        elif ovj.bushFound:
+            print("Encontre el bush")
+            if ovj.satiate:
+                pass
+            else:
+                print("Turnos restantes para comer: " + str(7 - ovj.eatTime))
+                ovj.eat()
 
         Ent.renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja) # Limpiar posicion de la oveja
-        # Ent.renewposition(shep1.pastPostX, shep1.pastPostY, mapGranja)
-        # Ent.renewposition(shep2.pastPostX, shep2.pastPostY, mapGranja)
-        # Ent.renewposition(shep3.pastPostX, shep3.pastPostY, mapGranja)
 
         ovj.existinmap(mapGranja)
-        # shep1.existinmap(mapGranja)
-        # shep2.existinmap(mapGranja)
-        # shep3.existinmap(mapGranja)
-        Time.sleep(2)
+        Time.sleep(1)
 
 
 
