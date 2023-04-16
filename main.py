@@ -67,6 +67,7 @@ if __name__ == '__main__':
         Ent.renewposition(ovj.pastPostX, ovj.pastPostY, ovj.knwlg)
 
         ovj.existinmap(mapGranja)
+
         Time.sleep(.10)
 
 

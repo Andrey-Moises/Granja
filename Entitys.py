@@ -16,8 +16,8 @@ class Arbusto:
         axisx = Rm.randrange(1, 19)
         axisy = Rm.randrange(1, 19)
         if map[axisx][axisy] == ' ':
-            self.axisX = 19
-            self.axisY = 19
+            self.axisX = axisx
+            self.axisY = axisy
         else:
             self.spawn(self, map)
 
@@ -84,9 +84,6 @@ class Oveja:
 
     def move(self):
 
-        self.pastPostX = self.axisX
-        self.pastPostY = self.axisY
-
         magicnumber = Rm.randrange(1, 5)
         self.revealmap()
         if magicnumber == 1:
@@ -144,12 +141,16 @@ class Oveja:
                     if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS:
                         self.exploredPos.append([self.axisX - 1, self.axisY])
                         print(f"{magicnumber}: Norte - Pro")
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisX -= 1
                     else:
                         self.move()
                 elif magicnumber == 2:
                     if self.knwlg[self.axisX + 1][self.axisY] not in ENTITYS:
                         self.exploredPos.append([self.axisX + 1, self.axisY])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisX += 1
                         print(f"{magicnumber}: Sur - pro")
                     else:
@@ -157,6 +158,8 @@ class Oveja:
                 elif magicnumber == 3:
                     if self.knwlg[self.axisX][self.axisY - 1] not in ENTITYS:
                         self.exploredPos.append([self.axisX, self.axisY - 1])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisY -= 1
                         print(f"{magicnumber}: Este - pro")
                     else:
@@ -164,12 +167,16 @@ class Oveja:
                 elif magicnumber == 4:
                     if self.knwlg[self.axisX][self.axisY + 1] not in ENTITYS:
                         self.exploredPos.append([self.axisX, self.axisY + 1])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisY += 1
                         print(f"{magicnumber}: Oeste pro")
                     else:
                         self.move()
 
-            if [self.axisX - 1, self.axisY] and \
+                    print("Sexo")
+
+            elif [self.axisX - 1, self.axisY] and \
                     [self.axisX + 1, self.axisY] and \
                     [self.axisX, self.axisY - 1] and [self.axisX, self.axisY + 1] in self.exploredPos:
 
@@ -179,12 +186,16 @@ class Oveja:
                     if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS:
                         self.exploredPos.append([self.axisX - 1, self.axisY])
                         print(f"{magicnumber}: Norte - Pro")
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisX -= 1
                     else:
                         self.move()
                 elif magicnumber == 2:
                     if self.knwlg[self.axisX + 1][self.axisY] not in ENTITYS:
                         self.exploredPos.append([self.axisX + 1, self.axisY])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisX += 1
                         print(f"{magicnumber}: Sur - pro")
                     else:
@@ -192,6 +203,8 @@ class Oveja:
                 elif magicnumber == 3:
                     if self.knwlg[self.axisX][self.axisY - 1] not in ENTITYS:
                         self.exploredPos.append([self.axisX, self.axisY - 1])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisY -= 1
                         print(f"{magicnumber}: Este - pro")
                     else:
@@ -199,6 +212,8 @@ class Oveja:
                 elif magicnumber == 4:
                     if self.knwlg[self.axisX][self.axisY + 1] not in ENTITYS:
                         self.exploredPos.append([self.axisX, self.axisY + 1])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisY += 1
                         print(f"{magicnumber}: Oeste pro")
                     else:
@@ -211,6 +226,8 @@ class Oveja:
                     if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS \
                             and [self.axisX - 1, self.axisY] not in self.exploredPos:
                         self.exploredPos.append([self.axisX - 1, self.axisY])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisX -= 1
                         print(f"{magicnumber}: Norte")
                     else:
@@ -219,6 +236,8 @@ class Oveja:
                     if self.knwlg[self.axisX + 1][self.axisY] not in ENTITYS and \
                             [self.axisX, self.axisY + 1] not in self.exploredPos:
                         self.exploredPos.append([self.axisX + 1, self.axisY])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisX += 1
                         print(f"{magicnumber}: Sur")
                     else:
@@ -227,6 +246,8 @@ class Oveja:
                     if self.knwlg[self.axisX][self.axisY - 1] not in ENTITYS and \
                             [self.axisX, self.axisY - 1] not in self.exploredPos:
                         self.exploredPos.append([self.axisX, self.axisY - 1])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisY -= 1
                         print(f"{magicnumber}: Este")
                     else:
@@ -235,10 +256,14 @@ class Oveja:
                     if self.knwlg[self.axisX][self.axisY + 1] not in ENTITYS and \
                             [self.axisX, self.axisY + 1] not in self.exploredPos:
                         self.exploredPos.append([self.axisX, self.axisY + 1])
+                        self.pastPostX = self.axisX
+                        self.pastPostY = self.axisY
                         self.axisY += 1
                         print(f"{magicnumber}: Oeste")
                     else:
                         self.move()
+        else:
+            print("Comer")
 
     def movescape(self):
 
