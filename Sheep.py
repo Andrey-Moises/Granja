@@ -1,26 +1,5 @@
-import random as Rm
-
+import random as rm
 ENTITYS = ['B', 'S', '=', '0', 'O']
-sheepTrack = []
-
-
-class Arbusto:
-    def __init__(self):
-        self.axisY = None
-        self.axisX = None
-        self.figure = 'B'
-
-    def existinmap(self, map):
-        map[self.axisX][self.axisY] = self.figure
-
-    def spawn(self, map):
-        axisx = Rm.randrange(1, 19)
-        axisy = Rm.randrange(1, 19)
-        if map[axisx][axisy] == ' ':
-            self.axisX = axisx
-            self.axisY = axisy
-        else:
-            self.spawn()
 
 
 class Oveja:
@@ -87,8 +66,10 @@ class Oveja:
 
     def move(self):
 
-        magicnumber = Rm.randrange(1, 5)
+        magicnumber = rm.randrange(1, 5)
         self.revealmap()
+
+        # Checar alrededor
 
         if self.knwlg[self.axisX - 1][self.axisY] == 'B':
             self.bushAxisX = self.axisX - 1
@@ -279,97 +260,3 @@ class Oveja:
         coordinate = self.exploredPos.pop()
         return coordinate
 
-class Pastor:
-    def __init__(self, x, y, map):
-        self.pastPostX = 0
-        self.pastPostY = 0
-        self.axisX = x
-        self.axisY = y
-        self.figure = 'S'
-        self.map = map
-        self.knwlg = [
-
-            ["=", '=', '=', '=', '=', '0', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ],  # 0
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 1
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 2
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 3
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 4
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 5
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 6
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 7
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 8
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 9
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 10
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 11
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 12
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 13
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 14
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', '=', '=', '=', ],
-            # 15
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ],
-            # 16
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '█', ' ', ' ', '=', ],
-            # 17
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ],
-            # 18
-            ["=", '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ]  # 19
-        ]
-        self.canMove = True
-
-    def move(self):
-
-        if self.canMove:
-            self.pastPostX = self.axisX
-            self.pastPostY = self.axisY
-
-            self.knwlg[self.axisX - 1][self.axisY] = self.map[self.axisX - 1][self.axisY]  # Norte
-            self.knwlg[self.axisX + 1][self.axisY] = self.map[self.axisX + 1][self.axisY]  # Sur
-            self.knwlg[self.axisX][self.axisY - 1] = self.map[self.axisX][self.axisY - 1]  # Este
-            self.knwlg[self.axisX][self.axisY + 1] = self.map[self.axisX][self.axisY + 1]  # Oeste
-
-        def selectdirection():
-            magicnumber = Rm.randrange(1, 5)
-
-            self.knwlg[self.axisX][self.axisY] = 'X'
-
-            if magicnumber == 1:
-                if self.knwlg[self.axisX - 1][self.axisY] == ' ':
-                    self.axisX -= 1
-                elif self.knwlg[self.axisX - 1][self.axisY] != ' ':
-                    selectdirection()
-            if magicnumber == 2:
-                if self.knwlg[self.axisX + 1][self.axisY] == ' ':
-                    self.axisX += 1
-                elif self.knwlg[self.axisX + 1][self.axisY] != ' ':
-                    selectdirection()
-            if magicnumber == 3:
-                if self.knwlg[self.axisX][self.axisY - 1] == ' ':
-                    self.axisY -= 1
-                elif self.knwlg[self.axisX][self.axisY - 1] != ' ':
-                    selectdirection()
-            if magicnumber == 4:
-                if self.knwlg[self.axisX][self.axisY + 1] == ' ':
-                    self.axisY += 1
-                elif self.knwlg[self.axisX][self.axisY + 1] != ' ':
-                    selectdirection()
-
-        selectdirection()
-
-    def existinmap(self, map):
-        map[self.axisX][self.axisY] = self.figure
-
-
-def renewposition(axisx, axisy, map):
-    map[axisx][axisy] = ' '
-
-
-def printmap(map):
-    for fila in map:
-        for pos in fila:
-            print(pos, end=" ")
-        print()
