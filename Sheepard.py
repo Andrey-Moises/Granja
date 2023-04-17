@@ -39,7 +39,7 @@ class Pastor:
         self.canMove = True
 
         self.sheepFounded = False
-        self.sheepCordinates = []
+        self.jobDone = False
 
     def revealmap(self):
         self.knwlg[self.axisX - 1][self.axisY] = self.map[self.axisX - 1][self.axisY]  # Norte
@@ -77,22 +77,38 @@ class Pastor:
 
                 # GOAL [17][15]
 
-                if self.axisX <= 17:
-                    self.axisX += 1
+                print(f"Found him boss, im at [{self.axisX}][{self.axisY}]")
 
-                elif self.axisX >= 17:
-                    self.axisX -= 1
+                self.pastPostX = self.axisX
 
-                if self.axisX <= 15:
-                    self.axisX += 1
+                if self.axisX < 17:
+                    if self.axisX + 1 not in ENTITYS:
+                        self.axisX += 1
+                    else:
+                        print("Quitense vacas que la vida es corta")
 
-                elif self.axisX >= 15:
-                    self.axisX += 1
+                elif self.axisX > 17:
+                    if self.axisX - 1 not in ENTITYS:
+                        self.axisX -= 1
+                    else:
+                        print("Quitense vacas que la vida es corta")
+
+                self.pastPostY = self.axisY
+
+                if self.axisY < 15:
+                    if self.axisY + 1 not in ENTITYS:
+                        self.axisY += 1
+                    else:
+                        print("Quitense vacas que la vida es corta")
+                elif self.axisY > 17:
+                    if self.axisY + 1 not in ENTITYS:
+                        self.axisY += 1
+                    else:
+                        print("Quitense vacas que la vida es corta")
 
                 if [self.axisX, self.axisY] == [17, 15]:
-                    pass
-
-                print(f"Posicion actual: [{self.axisX}][{self.axisY}]")
+                    self.map[18][18] = 'O'
+                    self.jobDone = True
 
             else:
 

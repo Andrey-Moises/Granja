@@ -62,8 +62,8 @@ if __name__ == '__main__':
     bush = Bush.Arbusto()
     bush.spawn(mapGranja)
     shep1 = Sheepard.Pastor(18, 1, mapGranja)
-    shep2 = Sheepard.Pastor(18, 15, mapGranja)
-    shep3 = Sheepard.Pastor(16, 10, mapGranja)
+    shep2 = Sheepard.Pastor(14, 18, mapGranja)
+    shep3 = Sheepard.Pastor(1, 18, mapGranja)
 
     entitys = [ovj, bush, shep1, shep2, shep3]
     inicializer(mapGranja, entitys)
@@ -89,13 +89,14 @@ if __name__ == '__main__':
 
         if shep1.sheepFounded or shep2.sheepFounded or shep3.sheepFounded:
             ovj.canMove = False
+            ovj.axisX = 0
+            ovj.axisY = 0
         else:
             ovj.move()
 
         shep1.move()
         shep2.move()
         shep3.move()
-        print(f"1.{shep1.canMove}2.{shep2.canMove}1.{shep3.canMove}")
 
         # Limpiar posiciones en el Mapa General de todas las entidades
 
@@ -125,7 +126,11 @@ if __name__ == '__main__':
 
         # Posicionarse en el mapa - Todas las entidades - En el mapa general
 
-        ovj.existinmap(mapGranja)
+        if shep1.sheepFounded or shep2.sheepFounded or shep3.sheepFounded:
+            pass
+        else:
+            ovj.existinmap(mapGranja)
+
         shep1.existinmap(mapGranja)
         shep2.existinmap(mapGranja)
         shep3.existinmap(mapGranja)
@@ -134,13 +139,27 @@ if __name__ == '__main__':
 
         if ovj.freedom:
             FINAL = False
+        elif shep1.jobDone or shep2.jobDone or shep3.jobDone:
+            FINAL = False
 
     ovj.existinmap(ovj.knwlg)  # Posicionarse en el Mapa del agente - Oveja
 
     renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja)
     renewposition(ovj.pastPostX, ovj.pastPostY, ovj.knwlg)
 
+    clear()
+    print("\n\n\n\n\n\n")
+    if ovj.freedom:
+        print("Eres libre amiga. Save the world - Oveja wins")
+    elif shep1.jobDone or shep2.jobDone or shep3.jobDone:
+        print("No hay libertad para los malditos - Pastores wins")
+
+    print("\n")
+
     printmap(mapGranja)
+
+    print("\n")
+
     printmap(ovj.knwlg)
 
-    print("Eres libre amiga. Save the World")
+    print("\n\n")
