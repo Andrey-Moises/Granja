@@ -15,7 +15,7 @@ class Arbusto:
         axisx = rm.randrange(1, 19)
         axisy = rm.randrange(1, 19)
         if map[axisx][axisy] == ' ':
-            self.axisX = 18
-            self.axisY = 18
+            self.axisX = axisx
+            self.axisY = axisy
         else:
             self.spawn()

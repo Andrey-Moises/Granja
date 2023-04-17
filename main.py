@@ -66,79 +66,81 @@ if __name__ == '__main__':
     shep3 = Sheepard.Pastor(16, 10, mapGranja)
 
     entitys = [ovj, bush, shep1, shep2, shep3]
-
     inicializer(mapGranja, entitys)
 
     while FINAL:
 
         clear()
 
-        ovj.revealmap()
+        # Posicionarse en el mapa - Todas las entidades - En sus conocimientos
         ovj.existinmap(ovj.knwlg)
-
         shep1.existinmap(shep1.knwlg)
-        shep1.existinmap(shep2.knwlg)
-        shep1.existinmap(shep3.knwlg)
-
         shep2.existinmap(shep1.knwlg)
-        shep2.existinmap(shep2.knwlg)
-        shep2.existinmap(shep3.knwlg)
-
         shep3.existinmap(shep1.knwlg)
-        shep3.existinmap(shep2.knwlg)
-        shep3.existinmap(shep3.knwlg)
 
+        # Imprimir Mapa o mapas
         printmap(mapGranja)
-        printmap(shep1.knwlg)
+        # printmap(ovj.knwlg)
+        # printmap(shep1.knwlg)
+        # printmap(shep2.knwlg)
+        # printmap(shep3.knwlg)
 
-        ovj.move()
+        # Moverse
+
+        if shep1.sheepFounded or shep2.sheepFounded or shep3.sheepFounded:
+            ovj.canMove = False
+        else:
+            ovj.move()
+
         shep1.move()
         shep2.move()
         shep3.move()
+        print(f"1.{shep1.canMove}2.{shep2.canMove}1.{shep3.canMove}")
 
-        renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja) # Limpiar posicion de la oveja
-        renewposition(ovj.pastPostX, ovj.pastPostY, shep1.knwlg)
+        # Limpiar posiciones en el Mapa General de todas las entidades
+
+        renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja)
+        renewposition(ovj.pastPostX, ovj.pastPostY, ovj.knwlg)
+
+        # Limpiar pocisiones en el Mapa del granjero 1 Para todas las entidades (incluyendose)
 
         renewposition(shep1.pastPostX, shep1.pastPostY, mapGranja)
         renewposition(shep1.pastPostX, shep1.pastPostY, shep1.knwlg)
-        renewposition(shep2.pastPostX, shep2.pastPostY, shep2.knwlg)
-        renewposition(shep3.pastPostX, shep3.pastPostY, shep3.knwlg)
+        renewposition(shep1.pastPostX, shep1.pastPostY, shep2.knwlg)
+        renewposition(shep1.pastPostX, shep1.pastPostY, shep3.knwlg)
+
+        # Limpiar pocisiones en el Mapa del granjero 2 Para todas las entidades (incluyendose)
 
         renewposition(shep2.pastPostX, shep2.pastPostY, mapGranja)
-        renewposition(shep1.pastPostX, shep1.pastPostY, shep1.knwlg)
+        renewposition(shep2.pastPostX, shep2.pastPostY, shep1.knwlg)
         renewposition(shep2.pastPostX, shep2.pastPostY, shep2.knwlg)
-        renewposition(shep3.pastPostX, shep3.pastPostY, shep3.knwlg)
+        renewposition(shep2.pastPostX, shep2.pastPostY, shep3.knwlg)
+
+        # Limpiar pocisiones en el Mapa del granjero 3 Para todas las entidades (incluyendose)
 
         renewposition(shep3.pastPostX, shep3.pastPostY, mapGranja)
-        renewposition(shep1.pastPostX, shep1.pastPostY, shep1.knwlg)
-        renewposition(shep2.pastPostX, shep2.pastPostY, shep2.knwlg)
+        renewposition(shep3.pastPostX, shep3.pastPostY, shep1.knwlg)
+        renewposition(shep3.pastPostX, shep3.pastPostY, shep2.knwlg)
         renewposition(shep3.pastPostX, shep3.pastPostY, shep3.knwlg)
+
+        # Posicionarse en el mapa - Todas las entidades - En el mapa general
 
         ovj.existinmap(mapGranja)
         shep1.existinmap(mapGranja)
         shep2.existinmap(mapGranja)
         shep3.existinmap(mapGranja)
 
-        time.sleep(.5)
+        time.sleep(.07)
 
         if ovj.freedom:
             FINAL = False
 
     ovj.existinmap(ovj.knwlg)  # Posicionarse en el Mapa del agente - Oveja
 
-    printmap(mapGranja)  # Imprimir Mapa Global
-    printmap(ovj.knwlg)  # Imprimir Mapa del agente - Oveja
-    renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja)  # Limpiar posicion de la oveja
+    renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja)
     renewposition(ovj.pastPostX, ovj.pastPostY, ovj.knwlg)
 
+    printmap(mapGranja)
+    printmap(ovj.knwlg)
+
     print("Eres libre amiga. Save the World")
-
-
-
-
-
-
-
-
-
-

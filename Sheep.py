@@ -130,10 +130,10 @@ class Oveja:
 
         elif self.canMove:
 
-            if self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY - 1] == '=' or \
-                    self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY + 1] == '=' or \
-                    self.knwlg[self.axisX + 1][self.axisY] and self.knwlg[self.axisX][self.axisY - 1] == '=' or \
-                    self.knwlg[self.axisX + 1][self.axisY] and self.knwlg[self.axisX][self.axisY + 1] == '=':
+            if self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY - 1] != ' ' or \
+                    self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY + 1] != ' ' or \
+                    self.knwlg[self.axisX + 1][self.axisY] and self.knwlg[self.axisX][self.axisY - 1] != ' ' or \
+                    self.knwlg[self.axisX + 1][self.axisY] and self.knwlg[self.axisX][self.axisY + 1] != ' ':
                 if magicnumber == 1:
                     if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS:
                         self.exploredPos.append([self.axisX - 1, self.axisY])

@@ -1,5 +1,5 @@
 import random as rm
-ENTITYS = ['B', 'S', '=', '0', 'O']
+ENTITYS = ['B', 'S', '=', '0', 'O', '8']
 
 
 class Pastor:
@@ -23,24 +23,15 @@ class Pastor:
             ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 7
             ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 8
             ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 9
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 10
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 11
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 12
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 13
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 14
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', '=', '=', '=', ],
-            # 15
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ],
-            # 16
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '█', ' ', ' ', '=', ],
-            # 17
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ],
-            # 18
+            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 10
+            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 11
+            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 12
+            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 13
+            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 14
+            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', '=', '=', '=', ],  # 15
+            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ],  # 16
+            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '█', ' ', ' ', '=', ],  # 17
+            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ],  # 18
             ["=", '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ]  # 19
         ]
         self.exploredPos = [[x, y]]
@@ -50,7 +41,15 @@ class Pastor:
         self.sheepFounded = False
         self.sheepCordinates = []
 
+    def revealmap(self):
+        self.knwlg[self.axisX - 1][self.axisY] = self.map[self.axisX - 1][self.axisY]  # Norte
+        self.knwlg[self.axisX + 1][self.axisY] = self.map[self.axisX + 1][self.axisY]  # Sur
+        self.knwlg[self.axisX][self.axisY - 1] = self.map[self.axisX][self.axisY - 1]  # Est
+        self.knwlg[self.axisX][self.axisY + 1] = self.map[self.axisX][self.axisY + 1]  # Oest
+
     def move(self):
+
+        self.revealmap()
 
         magicnumber = rm.randrange(1, 5)
 
@@ -70,85 +69,105 @@ class Pastor:
             self.sheepCordinates = [self.axisX, self.axisY + 1]
             self.sheepFounded = True
 
-        if self.sheepFounded:
-
-            self.canMove = False
-            print("La vi pero no la toque UnU")
-
         if self.canMove:
 
-            if self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY - 1] == '=' or \
-                    self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY + 1] == '=' or \
-                    self.knwlg[self.axisX + 1][self.axisY] and self.knwlg[self.axisX][self.axisY - 1] == '=' or \
-                    self.knwlg[self.axisX + 1][self.axisY] and self.knwlg[self.axisX][self.axisY + 1] == '=':
-                if magicnumber == 1:
-                    if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS:
-                        self.exploredPos.append([self.axisX - 1, self.axisY])
-                        self.pastPostX = self.axisX
-                        self.pastPostY = self.axisY
-                        self.axisX -= 1
-                    else:
-                        self.move()
-                elif magicnumber == 2:
-                    if self.knwlg[self.axisX + 1][self.axisY] not in ENTITYS:
-                        self.exploredPos.append([self.axisX + 1, self.axisY])
-                        self.pastPostX = self.axisX
-                        self.pastPostY = self.axisY
-                        self.axisX += 1
-                    else:
-                        self.move()
-                elif magicnumber == 3:
-                    if self.knwlg[self.axisX][self.axisY - 1] not in ENTITYS:
-                        self.exploredPos.append([self.axisX, self.axisY - 1])
-                        self.pastPostX = self.axisX
-                        self.pastPostY = self.axisY
-                        self.axisY -= 1
-                    else:
-                        self.move()
-                elif magicnumber == 4:
-                    if self.knwlg[self.axisX][self.axisY + 1] not in ENTITYS:
-                        self.exploredPos.append([self.axisX, self.axisY + 1])
-                        self.pastPostX = self.axisX
-                        self.pastPostY = self.axisY
-                        self.axisY += 1
-                    else:
-                        self.move()
+            if self.sheepFounded:
 
-            elif [self.axisX - 1, self.axisY] or [self.axisX + 1, self.axisY] or [self.axisX, self.axisY - 1] or \
-                    [self.axisX, self.axisY + 1] == ' ':
+                self.figure = '8'
 
-                if magicnumber == 1:
-                    if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS:
-                        self.exploredPos.append([self.axisX - 1, self.axisY])
-                        self.pastPostX = self.axisX
-                        self.pastPostY = self.axisY
-                        self.axisX -= 1
-                    else:
-                        self.move()
-                elif magicnumber == 2:
-                    if self.knwlg[self.axisX + 1][self.axisY] not in ENTITYS:
-                        self.exploredPos.append([self.axisX + 1, self.axisY])
-                        self.pastPostX = self.axisX
-                        self.pastPostY = self.axisY
-                        self.axisX += 1
-                    else:
-                        self.move()
-                elif magicnumber == 3:
-                    if self.knwlg[self.axisX][self.axisY - 1] not in ENTITYS:
-                        self.exploredPos.append([self.axisX, self.axisY - 1])
-                        self.pastPostX = self.axisX
-                        self.pastPostY = self.axisY
-                        self.axisY -= 1
-                    else:
-                        self.move()
-                elif magicnumber == 4:
-                    if self.knwlg[self.axisX][self.axisY + 1] not in ENTITYS:
-                        self.exploredPos.append([self.axisX, self.axisY + 1])
-                        self.pastPostX = self.axisX
-                        self.pastPostY = self.axisY
-                        self.axisY += 1
-                    else:
-                        self.move()
+                # GOAL [17][15]
+
+                if self.axisX <= 17:
+                    self.axisX += 1
+
+                elif self.axisX >= 17:
+                    self.axisX -= 1
+
+                if self.axisX <= 15:
+                    self.axisX += 1
+
+                elif self.axisX >= 15:
+                    self.axisX += 1
+
+                if [self.axisX, self.axisY] == [17, 15]:
+                    pass
+
+                print(f"Posicion actual: [{self.axisX}][{self.axisY}]")
+
+            else:
+
+                if self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY - 1] != ' ' or \
+                        self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY + 1] != ' ' or \
+                        self.knwlg[self.axisX + 1][self.axisY] and self.knwlg[self.axisX][self.axisY - 1] != ' ' or \
+                        self.knwlg[self.axisX + 1][self.axisY] and self.knwlg[self.axisX][self.axisY + 1] != ' ':
+                    if magicnumber == 1:
+                        if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS:
+                            self.exploredPos.append([self.axisX - 1, self.axisY])
+                            self.pastPostX = self.axisX
+                            self.pastPostY = self.axisY
+                            self.axisX -= 1
+                        else:
+                            self.move()
+                    elif magicnumber == 2:
+                        if self.knwlg[self.axisX + 1][self.axisY] not in ENTITYS:
+                            self.exploredPos.append([self.axisX + 1, self.axisY])
+                            self.pastPostX = self.axisX
+                            self.pastPostY = self.axisY
+                            self.axisX += 1
+                        else:
+                            self.move()
+                    elif magicnumber == 3:
+                        if self.knwlg[self.axisX][self.axisY - 1] not in ENTITYS:
+                            self.exploredPos.append([self.axisX, self.axisY - 1])
+                            self.pastPostX = self.axisX
+                            self.pastPostY = self.axisY
+                            self.axisY -= 1
+                        else:
+                            self.move()
+                    elif magicnumber == 4:
+                        if self.knwlg[self.axisX][self.axisY + 1] not in ENTITYS:
+                            self.exploredPos.append([self.axisX, self.axisY + 1])
+                            self.pastPostX = self.axisX
+                            self.pastPostY = self.axisY
+                            self.axisY += 1
+                        else:
+                            self.move()
+
+                elif [self.axisX - 1, self.axisY] or [self.axisX + 1, self.axisY] or [self.axisX, self.axisY - 1] or \
+                        [self.axisX, self.axisY + 1] == ' ':
+
+                    if magicnumber == 1:
+                        if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS:
+                            self.exploredPos.append([self.axisX - 1, self.axisY])
+                            self.pastPostX = self.axisX
+                            self.pastPostY = self.axisY
+                            self.axisX -= 1
+                        else:
+                            self.move()
+                    elif magicnumber == 2:
+                        if self.knwlg[self.axisX + 1][self.axisY] not in ENTITYS:
+                            self.exploredPos.append([self.axisX + 1, self.axisY])
+                            self.pastPostX = self.axisX
+                            self.pastPostY = self.axisY
+                            self.axisX += 1
+                        else:
+                            self.move()
+                    elif magicnumber == 3:
+                        if self.knwlg[self.axisX][self.axisY - 1] not in ENTITYS:
+                            self.exploredPos.append([self.axisX, self.axisY - 1])
+                            self.pastPostX = self.axisX
+                            self.pastPostY = self.axisY
+                            self.axisY -= 1
+                        else:
+                            self.move()
+                    elif magicnumber == 4:
+                        if self.knwlg[self.axisX][self.axisY + 1] not in ENTITYS:
+                            self.exploredPos.append([self.axisX, self.axisY + 1])
+                            self.pastPostX = self.axisX
+                            self.pastPostY = self.axisY
+                            self.axisY += 1
+                        else:
+                            self.move()
 
     def existinmap(self, map):
         map[self.axisX][self.axisY] = self.figure
