@@ -1,6 +1,7 @@
 import random as Rm
 
 ENTITYS = ['B', 'S', '=', '0', 'O']
+sheepTrack = []
 
 
 class Arbusto:
@@ -19,7 +20,7 @@ class Arbusto:
             self.axisX = axisx
             self.axisY = axisy
         else:
-            self.spawn(self, map)
+            self.spawn()
 
 
 class Oveja:
@@ -32,6 +33,7 @@ class Oveja:
 
         self.eatTime = 0
         self.satiate = False
+        self.freedom = False
 
         self.figure = 'O'
 
@@ -69,6 +71,7 @@ class Oveja:
             ["=", '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ]  # 19
         ]
         self.exploredPos = [[x, y]]
+        self.returningPos = []
 
         self.bushFound = False
         self.bushAxisX = None
@@ -86,14 +89,6 @@ class Oveja:
 
         magicnumber = Rm.randrange(1, 5)
         self.revealmap()
-        if magicnumber == 1:
-            print(f"{magicnumber}: Norte")
-        elif magicnumber == 2:
-            print(f"{magicnumber}: Sur")
-        elif magicnumber == 3:
-            print(f"{magicnumber}: Este")
-        elif magicnumber == 4:
-            print(f"{magicnumber}: Oeste")
 
         if self.knwlg[self.axisX - 1][self.axisY] == 'B':
             self.bushAxisX = self.axisX - 1
@@ -131,7 +126,28 @@ class Oveja:
             else:
                 self.canMove = False
 
-        if self.canMove:
+        if self.bushFound:
+
+            if self.satiate:
+
+                if self.canMove:
+
+                    cleanplan = self.createpath()
+
+                    self.pastPostX = self.axisX
+                    self.pastPostY = self.axisY
+
+                    self.axisX = cleanplan[0]
+                    self.axisY = cleanplan[1]
+
+                    if self.exploredPos:
+                        pass
+                    else:
+                        self.freedom = True
+            else:
+                self.eat()
+
+        elif self.canMove:
 
             if self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY - 1] == '=' or \
                     self.knwlg[self.axisX - 1][self.axisY] and self.knwlg[self.axisX][self.axisY + 1] == '=' or \
@@ -140,7 +156,6 @@ class Oveja:
                 if magicnumber == 1:
                     if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS:
                         self.exploredPos.append([self.axisX - 1, self.axisY])
-                        print(f"{magicnumber}: Norte - Pro")
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisX -= 1
@@ -152,7 +167,6 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisX += 1
-                        print(f"{magicnumber}: Sur - pro")
                     else:
                         self.move()
                 elif magicnumber == 3:
@@ -161,7 +175,6 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisY -= 1
-                        print(f"{magicnumber}: Este - pro")
                     else:
                         self.move()
                 elif magicnumber == 4:
@@ -170,22 +183,16 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisY += 1
-                        print(f"{magicnumber}: Oeste pro")
                     else:
                         self.move()
-
-                    print("Sexo")
 
             elif [self.axisX - 1, self.axisY] and \
                     [self.axisX + 1, self.axisY] and \
                     [self.axisX, self.axisY - 1] and [self.axisX, self.axisY + 1] in self.exploredPos:
 
-                print("Ya estuve por aqui")
-
                 if magicnumber == 1:
                     if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS:
                         self.exploredPos.append([self.axisX - 1, self.axisY])
-                        print(f"{magicnumber}: Norte - Pro")
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisX -= 1
@@ -197,7 +204,6 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisX += 1
-                        print(f"{magicnumber}: Sur - pro")
                     else:
                         self.move()
                 elif magicnumber == 3:
@@ -206,7 +212,6 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisY -= 1
-                        print(f"{magicnumber}: Este - pro")
                     else:
                         self.move()
                 elif magicnumber == 4:
@@ -215,12 +220,11 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisY += 1
-                        print(f"{magicnumber}: Oeste pro")
                     else:
                         self.move()
 
-            elif [self.axisX - 1, self.axisY] or [self.axisX + 1, self.axisY] or [self.axisX, self.axisY - 1] or [
-                self.axisX, self.axisY + 1] not in self.exploredPos:
+            elif [self.axisX - 1, self.axisY] or [self.axisX + 1, self.axisY] or [self.axisX, self.axisY - 1] or \
+                    [self.axisX, self.axisY + 1] not in self.exploredPos:
 
                 if magicnumber == 1:
                     if self.knwlg[self.axisX - 1][self.axisY] not in ENTITYS \
@@ -229,7 +233,6 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisX -= 1
-                        print(f"{magicnumber}: Norte")
                     else:
                         self.move()
                 elif magicnumber == 2:
@@ -239,7 +242,6 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisX += 1
-                        print(f"{magicnumber}: Sur")
                     else:
                         self.move()
                 elif magicnumber == 3:
@@ -249,7 +251,6 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisY -= 1
-                        print(f"{magicnumber}: Este")
                     else:
                         self.move()
                 elif magicnumber == 4:
@@ -259,54 +260,8 @@ class Oveja:
                         self.pastPostX = self.axisX
                         self.pastPostY = self.axisY
                         self.axisY += 1
-                        print(f"{magicnumber}: Oeste")
                     else:
                         self.move()
-        else:
-            print("Comer")
-
-    def movescape(self):
-
-        self.knwlg = [
-            #   Y     0    1    2    3    4    5    6    7    8    9   10   11  12    13   14   15   16   17   18   19    |  X
-            ["=", '=', '=', '=', '=', '0', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ],  # 0
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 1
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 2
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 3
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 4
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 5
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 6
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 7
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 8
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],  # 9
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 10
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 11
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 12
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 13
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ],
-            # 14
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', '=', '=', '=', ],
-            # 15
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ],
-            # 16
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '█', ' ', ' ', '=', ],
-            # 17
-            ["=", ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '=', ' ', ' ', '=', ],
-            # 18
-            ["=", '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', 'O', 'V', 'J', '=', ]  # 19
-        ]
-
-        self.pastPostX = self.axisX
-        self.pastPostY = self.axisY
-
-        print(f"[{self.pastPostX}][{self.axisY}]")
-
-        self.axisX -= 1
-        # self.axisY += 1
 
     def existinmap(self, map):
         map[self.axisX][self.axisY] = self.figure
@@ -315,9 +270,14 @@ class Oveja:
         if self.eatTime < 6:
             self.canMove = False
             self.eatTime += 1
+            print(f"Turnos para comer {7 - self.eatTime}")
         else:
             self.satiate = True
 
+    def createpath(self):
+
+        coordinate = self.exploredPos.pop()
+        return coordinate
 
 class Pastor:
     def __init__(self, x, y, map):

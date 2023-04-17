@@ -3,6 +3,13 @@ import time as Time
 import os
 
 
+def borrarpantalla():
+    if os.name == "posix":
+        os.system("clear")
+    elif os.name == "ce" or os.name == "nt" or os.name == "dos":
+        os.system("cls")
+
+
 if __name__ == '__main__':
 
     FINAL = True
@@ -34,41 +41,39 @@ if __name__ == '__main__':
     ovj = Ent.Oveja(1, 5, mapGranja)
     bush = Ent.Arbusto()
     bush.spawn(mapGranja)
+    ovj.existinmap(mapGranja)  # Posicionarse en el mapa Global - Oveja
+    bush.existinmap(mapGranja)  # Posicionarse en el Mapa Global - Arbusto
 
     while FINAL:
 
-        if os.name == "posix":
-            var = "clear"
-        elif os.name == "ce" or os.name == "nt" or os.name == "dos":
-            var = "cls"
-        os.system(var)
-
-        print("\n")
-
-        ovj.existinmap(mapGranja)   # Posicionarse en el mapa Global - Oveja
-        bush.existinmap(mapGranja)  # Posicionarse en el Mapa Global - Arbusto
+        borrarpantalla()
 
         ovj.revealmap()
+        ovj.existinmap(ovj.knwlg)
 
-        ovj.existinmap(ovj.knwlg)   # Posicionarse en el Mapa del agente - Oveja
-
-        Ent.printmap(mapGranja) # Imprimir Mapa Global
-        Ent.printmap(ovj.knwlg) # Imprimir Mapa del agente - Oveja
+        Ent.printmap(mapGranja)
+        Ent.printmap(ovj.knwlg)
 
         ovj.move()
-        print(f"Posicion actual: [{ovj.axisX}][{ovj.axisY}]")
-        print(ovj.exploredPos)
-        print(f"Posicion norte: [{ovj.axisX - 1}, {ovj.axisY}]"
-              f"\nPosicion sur: [{ovj.axisX + 1}, {ovj.axisY}]"
-              f"\nPosicion Este: [{ovj.axisX}, {ovj.axisY - 1}]"
-              f"\nPosicion oeste: [{ovj.axisX}, {ovj.axisY + 1}]")
 
         Ent.renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja) # Limpiar posicion de la oveja
         Ent.renewposition(ovj.pastPostX, ovj.pastPostY, ovj.knwlg)
 
         ovj.existinmap(mapGranja)
 
-        Time.sleep(.10)
+        Time.sleep(.5)
+
+        if ovj.freedom:
+            FINAL = False
+
+    ovj.existinmap(ovj.knwlg)  # Posicionarse en el Mapa del agente - Oveja
+
+    Ent.printmap(mapGranja)  # Imprimir Mapa Global
+    Ent.printmap(ovj.knwlg)  # Imprimir Mapa del agente - Oveja
+    Ent.renewposition(ovj.pastPostX, ovj.pastPostY, mapGranja)  # Limpiar posicion de la oveja
+    Ent.renewposition(ovj.pastPostX, ovj.pastPostY, ovj.knwlg)
+
+    print("Eres libre amiga. Save the World")
 
 
 
